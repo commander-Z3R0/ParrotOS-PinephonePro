@@ -1,0 +1,62 @@
+{{- $architecture := or .architecture "arm64" -}}
+{{- $username := or .username "parrotsec" -}}
+{{- $password := or .password "4869" -}}
+{{- $hostname := or .hostname "parrot" -}}
+{{- $debian_suite := or .debian_suite "trixie" -}}
+{{- $suite := or .suite $debian_suite -}}
+{{- $environment := or .environment "phosh" -}}
+{{- $installfs := or .installfs "installfs.tar.gz" }}
+{{- $mirror := or .mirror "http://deb.debian.org/debian" -}}
+
+architecture: {{ $architecture }}
+
+actions:
+  - action: debootstrap
+    suite: {{ $debian_suite }}
+    components:
+      - main
+    mirror: {{ $mirror }}
+    variant: minbase
+
+  - action: apt
+    description: Install mobian-archive-keyring
+    recommends: false
+    packages:
+      - ca-certificates
+      - mobian-archive-keyring
+
+  - action: run
+    description: Setup Mobian repository
+    chroot: true
+    script: scripts/setup-apt.sh {{ $debian_suite }} {{ $suite }}
+
+  - action: apt
+    recommends: false
+    description: Install installer packages
+    packages:
+      - ca-certificates
+      - calamares-settings-mobian
+      - device-tree-compiler
+      - initramfs-tools
+      - plymouth-theme-mobian
+      - squashfs-tools-ng
+      - u-boot-tools
+      - wget
+
+  - action: run
+    description: Set up system
+    chroot: true
+    script: scripts/setup-system.sh {{ $hostname }}
+
+  - action: run
+    description: Set up default user
+    chroot: true
+    script: scripts/setup-user.sh {{ $username }} {{ $password }}
+
+  - action: run
+    description: Set up installer
+    chroot: true
+    script: scripts/setup-installer.sh {{ $username }} {{ $debian_suite }} {{ $environment }}
+
+  - action: pack
+    file: {{ $installfs }}

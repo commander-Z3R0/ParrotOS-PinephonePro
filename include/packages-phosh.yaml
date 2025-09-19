@@ -1,0 +1,44 @@
+{{- $architecture := or .architecture "arm64" -}}
+
+architecture: {{ $architecture }}
+
+actions:
+  - action: apt
+    recommends: false
+    description: Install Phosh packages
+    packages:
+      - mobian-phosh
+      # Additional software we don't want metapackages to depend on
+      - cracklib-runtime # needed for pw change in UI, but g-c-c only recommends it
+      - chatty
+      - endeavour
+      - firefox-esr
+      - geary
+      - gnome-calculator
+      - gnome-calendar
+      - gnome-console
+      - gnome-maps
+      - gnome-software
+      - gnome-software-plugin-deb
+      - gnome-software-plugin-flatpak
+      - gnome-sound-recorder
+      - gnome-text-editor
+      - gnome-usage
+      - gnome-weather
+      - lollypop
+      - loupe
+      - papers
+      - phrog
+      - phosh-mobile-settings
+      - phosh-plugins
+      - phosh-tour
+      - phosh-wallpapers
+      - portfolio-filemanager
+      - powersupply-gtk
+      - sound-theme-phosh
+      - webext-ublock-origin-firefox
+
+  - action: run
+    description: Disable getty in the Phosh environment
+    chroot: true
+    command: systemctl disable getty@.service
