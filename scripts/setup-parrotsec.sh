@@ -47,7 +47,7 @@ core() {
 
     # run "wget -qO- https://deb.parrotsec.org/parrot/misc/parrotsec.gpg | gpg --dearmor -o /etc/apt/trusted.gpg.d/parrot-archive-keyring.gpg" "Adding GPG key"
     run "wget https://deb.parrot.sh/parrot/pool/main/p/parrot-archive-keyring/parrot-archive-keyring_2024.12_all.deb" "Unpacking parrot-archive-keyring (2024.12)"
-    run "apt install ./parrot-archive-keyring_2024.12_all.deb" "Install new GPG key"
+    run "apt install ./parrot-archive-keyring_2024.12_all.deb -y" "Install new GPG key"
 
     run "cp $script_dir/config/system/etc/apt/sources.list /etc/apt/sources.list" "Copying sources.list"
     run "cp -r $script_dir/config/system/etc/apt/sources.list.d/* /etc/apt/sources.list.d" "Copying sources.list.d"
