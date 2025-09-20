@@ -1,7 +1,8 @@
 #!/bin/bash
 
-source scripts/run.sh
-source scripts/install_packages.sh
+source scripts/scripts/run.sh
+source scripts/scripts/install_packages.sh
+
 
 core() {
     local core_packages
