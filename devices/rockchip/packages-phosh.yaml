@@ -13,4 +13,5 @@ actions:
       - firefox-esr-mobile-config
       - gnome-firmware
 {{ end }}
-      - gnome-snapshot
+     # - gnome-snapshot
+      - tree
