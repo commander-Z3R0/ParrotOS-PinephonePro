@@ -24,7 +24,7 @@ actions:
     description: Create resolv.conf for DNS
     chroot: true
     command: |
-    mkdir -p /etc && echo 'nameserver 8.8.8.8' > /etc/resolv.conf
+      mkdir -p /etc && echo 'nameserver 8.8.8.8' > /etc/resolv.conf
 
   - action: run
     description: Install parrot archive keyring from local .deb
