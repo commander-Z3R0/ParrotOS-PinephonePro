@@ -27,7 +27,7 @@ actions:
   - action: run
     description: Install parrot archive keyring from local .deb
     chroot: false
-    command: dpkg -i /tmp/parrot-archive-keyring_2024.12_all.deb
+    command: dpkg -i ${ROOTDIR}/tmp/parrot-archive-keyring_2024.12_all.deb
 
   - action: overlay
     source: apt/etc
