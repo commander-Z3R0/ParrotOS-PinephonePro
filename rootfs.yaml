@@ -16,9 +16,8 @@ architecture: {{ $architecture }}
 
 actions:
   - action: overlay
-    source: ../apt
-    description: Adding apt overlay
-    destination: /
+    source: apt
+    destination: /etc/apt
 
   - action: debootstrap
     suite: {{ $parrot_suite }}
