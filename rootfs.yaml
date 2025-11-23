@@ -18,7 +18,12 @@ actions:
   - action: overlay
     source: files
     destination: /tmp
-    
+
+  - action: run
+    description: Create /etc directory before overlays
+    chroot: false
+    command: mkdir -p ${ROOTDIR}/etc
+
   - action: run
     description: Install parrot archive keyring from local .deb
     chroot: false
