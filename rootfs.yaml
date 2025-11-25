@@ -23,12 +23,14 @@ actions:
     description: Create /etc directory before overlays
     chroot: false
     command: mkdir -p ${ROOTDIR}/etc
-
+ 
   - action: run
-    description: Ensure Parrot keyring is in /tmp for debootstrap
+    description: Replace Debian keyring with Parrot keyring
     chroot: false
     command: |
-      cp ${ROOTDIR}/tmp/parrot-archive-keyring.gpg ${ROOTDIR}/tmp/keyring.gpg
+      mkdir -p ${ROOTDIR}/usr/share/keyrings
+      cp ${ROOTDIR}/tmp/parrot-archive-keyring.gpg ${ROOTDIR}/usr/share/keyrings/debian-archive-keyring.gpg
+
   
   - action: debootstrap
     suite: {{ $parrot_suite }}
