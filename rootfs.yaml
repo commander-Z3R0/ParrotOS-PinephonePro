@@ -24,10 +24,6 @@ actions:
     chroot: false
     command: mkdir -p ${ROOTDIR}/etc
 
-  - action: overlay
-    source: files/tmp
-    destination: /tmp
-
   - action: debootstrap
     suite: {{ $parrot_suite }}
     components:
