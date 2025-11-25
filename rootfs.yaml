@@ -25,12 +25,11 @@ actions:
     command: mkdir -p ${ROOTDIR}/etc
 
   - action: run
-    description: Install Parrot keyring for debootstrap
+    description: Ensure Parrot keyring is in /tmp for debootstrap
     chroot: false
     command: |
-      mkdir -p ${ROOTDIR}/usr/share/keyrings
-      cp ${ROOTDIR}/tmp/parrot-archive-keyring.gpg ${ROOTDIR}/usr/share/keyrings/
-
+      cp ${ROOTDIR}/tmp/parrot-archive-keyring.gpg ${ROOTDIR}/tmp/keyring.gpg
+  
   - action: debootstrap
     suite: {{ $parrot_suite }}
     components:
