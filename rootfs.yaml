@@ -28,8 +28,7 @@ actions:
     description: Extract Parrot GPG keyring
     chroot: false
     command: |
-      dpkg-deb -x files/parrot-archive-keyring_2024.12_all.deb files/keyring-extract
-      cp files/keyring-extract/usr/share/keyrings/parrot-archive-keyring.gpg files/
+      cp files/parrot-archive-keyring.gpg  /usr/share/keyrings/
 
   - action: debootstrap
     suite: {{ $parrot_suite }}
