@@ -28,7 +28,7 @@ actions:
     description: Replace Debian keyring with Parrot keyring
     chroot: false
     command: |
-      mkdir -p ${ROOTDIR}/usr/share/keyrings
+     mkdir -p ${ROOTDIR}/usr/share/keyrings
       cp ${ROOTDIR}/tmp/parrot-archive-keyring.gpg ${ROOTDIR}/usr/share/keyrings/debian-archive-keyring.gpg
 
   
@@ -36,15 +36,14 @@ actions:
     suite: {{ $parrot_suite }}
     components:
       - main
-{{ if eq $contrib "true" }}
+  {{ if eq $contrib "true" }}
       - contrib
-{{ end }}
-{{ if eq $nonfree "true" }}
+  {{ end }}
+  {{ if eq $nonfree "true" }}
       - non-free-firmware
-{{ end }}
+  {{ end }}
     mirror: {{ $mirror }}
     variant: minbase
-    keyring: /tmp/parrot-archive-keyring-deb.gpg
     foreign: true
 
   - action: run
