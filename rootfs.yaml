@@ -1,51 +1,39 @@
 {{- $architecture := or .architecture "arm64" -}}
-{{- $username := or .username "parrotsec" -}}
-{{- $password := or .password "4869" -}}
-{{- $hostname := or .hostname "parrot" -}}
+{{- $username := or .username "parrot" -}}
+{{- $password := or .password "123456" -}}
+{{- $hostname := or .hostname "pinephonepro" -}}
 {{- $environment := or .environment "phosh" -}}
 {{- $contrib := or .contrib "false" -}}
 {{- $nonfree := or .nonfree "false" -}}
 {{- $ssh := or .ssh "" -}}
 {{- $zram:= or .zram "false" -}}
-{{- $parrot_suite := or .parrot_suite "lory" -}}
-{{- $suite := or .suite $parrot_suite -}}
+{{- $debian_suite := or .debian_suite "lory" -}}
+{{- $suite := or .suite $debian_suite -}}
 {{- $rootfs := or .rootfs "rootfs.tar.gz" }}
 {{- $mirror := or .mirror "https://deb.parrot.sh/parrot" -}}
 
 architecture: {{ $architecture }}
 
 actions:
-  - action: overlay
-    source: files
-    destination: /tmp
-
-  - action: run
-    description: Create /etc directory before overlays
-    chroot: false
-    command: mkdir -p ${ROOTDIR}/etc
-  
   - action: debootstrap
-    suite: {{ $parrot_suite }}
+    suite: {{ $debian_suite }}
     components:
       - main
-      {{ if eq $contrib "true" }}
+{{ if eq $contrib "true" }}
       - contrib
-      {{ end }}
-      {{ if eq $nonfree "true" }}
+{{ end }}
+{{ if eq $nonfree "true" }}
       - non-free-firmware
-      {{ end }}
+{{ end }}
     mirror: {{ $mirror }}
     variant: minbase
-    foreign: true
-    extra_args: --no-check-gpg
 
-  - action: run
-    description: Install parrot archive keyring
-    chroot: true
-    command: |
-      cp /tmp/parrot-archive-keyring.gpg /usr/share/keyrings/parrot-archive-keyring.gpg
-      apt install -y /tmp/parrot-archive-keyring_2024.12_all.deb
-      apt update
+  - action: apt
+    description: Install mobian-archive-keyring
+    recommends: false
+    packages:
+      - ca-certificates
+      - mobian-archive-keyring
 
   - action: overlay
     description: Enable resize of root partition
@@ -53,16 +41,16 @@ actions:
     destination: /etc/repart.d/
 
   - action: run
-    description: Setup Parrot repository
+    description: Setup Mobian repository
     chroot: true
-    script: scripts/setup-apt.sh {{ $parrot_suite }} {{ $suite }}
+    script: scripts/setup-apt.sh {{ $debian_suite }} {{ $suite }}
 
-  {{ if eq $nonfree "true" }}
+{{ if eq $nonfree "true" }}
   - action: run
     description: Enable non-free-firmware repos
     chroot: true
     script: scripts/setup-apt-nonfree.sh true
-  {{ end }}
+{{ end }}
 
   - action: recipe
     recipe: include/packages-base.yaml
@@ -77,7 +65,7 @@ actions:
     chroot: true
     script: scripts/setup-user.sh {{ $username }} {{ $password }}
 
-  {{ if $ssh }}
+{{ if $ssh }}
   - action: overlay
     description: Set up sshd configuration
     source: overlays/sshd_config.d/
@@ -92,29 +80,22 @@ actions:
     description: Set owner of .ssh
     chroot: true
     command: chown -R {{ $username }}:{{ $username }} /home/{{ $username }}/.ssh/
-  {{ end }}
+{{ end }}
 
-  {{ if eq $zram "true" }}
+{{ if eq $zram "true" }}
   - action: overlay
     description: setup zram devices
     source: overlays/zram/
     destination: /etc/
-  {{ end }}
-
-  - action: run
-    description: Pre-install Parrot core dependencies
-    chroot: true
-    command: apt install -y libio-pty-perl libipc-run-perl moreutils
-
-  - action: run
-    description: Set up parrotsec "core"
-    chroot: true
-    script: scripts/setup-parrotsec.sh
+{{ end }}
 
   - action: run
     description: Set up system
     chroot: true
     script: scripts/setup-system.sh {{ $hostname }}
+  
+  - action: recipe
+    recipe: include/packages-privacy.yaml
 
   - action: pack
     file: {{ $rootfs }}

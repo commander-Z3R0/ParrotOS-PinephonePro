@@ -1,0 +1,20 @@
+FROM parrotsec/core
+
+RUN apt-get update && \
+    apt-get install -y \
+        debos \
+        qemu-user-static \
+        binfmt-support \
+        git \
+        rsync \
+        squashfs-tools \
+        dosfstools \
+        cryptsetup \
+        cryptsetup-bin \
+        util-linux \
+        e2fsprogs \
+        kmod \
+        bmap-tools && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+

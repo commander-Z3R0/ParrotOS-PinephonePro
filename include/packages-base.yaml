@@ -8,7 +8,6 @@ actions:
     recommends: false
     description: Install base packages
     packages:
-      - mobian-archive-keyring
       - mobian-base
 {{ if $ssh }}
       - openssh-server

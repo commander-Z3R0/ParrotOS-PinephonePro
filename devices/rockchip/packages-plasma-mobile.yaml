@@ -9,7 +9,6 @@ actions:
     description: Install device-specific packages for Plasma Mobile
     packages:
 {{ if ne $device "pinetab2" }}
-      - mobian-archive-keyring
       - mobian-plasma-mobile-phone
       - firefox-esr-mobile-config
 {{ end }}

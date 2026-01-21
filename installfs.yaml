@@ -1,9 +1,9 @@
 {{- $architecture := or .architecture "arm64" -}}
-{{- $username := or .username "parrotsec" -}}
-{{- $password := or .password "4869" -}}
-{{- $hostname := or .hostname "parrot" -}}
-{{- $parrot_suite := or .parrot_suite "lory" -}}
-{{- $suite := or .suite $parrot_suite -}}
+{{- $username := or .username "parrot" -}}
+{{- $password := or .password "123456" -}}
+{{- $hostname := or .hostname "pinephonepro" -}}
+{{- $debian_suite := or .debian_suite "lory" -}}
+{{- $suite := or .suite $debian_suite -}}
 {{- $environment := or .environment "phosh" -}}
 {{- $installfs := or .installfs "installfs.tar.gz" }}
 {{- $mirror := or .mirror "https://deb.parrot.sh/parrot" -}}
@@ -12,23 +12,23 @@ architecture: {{ $architecture }}
 
 actions:
   - action: debootstrap
-    suite: {{ $parrot_suite }}
+    suite: {{ $debian_suite }}
     components:
       - main
     mirror: {{ $mirror }}
     variant: minbase
 
   - action: apt
-    description: Install parrot-archive-keyring
+    description: Install mobian-archive-keyring
     recommends: false
     packages:
       - ca-certificates
-      - parrot-archive-keyring
+      - mobian-archive-keyring
 
   - action: run
     description: Setup Mobian repository
     chroot: true
-    script: scripts/setup-apt.sh {{ $parrot_suite }} {{ $suite }}
+    script: scripts/setup-apt.sh {{ $debian_suite }} {{ $suite }}
 
   - action: apt
     recommends: false
@@ -56,7 +56,7 @@ actions:
   - action: run
     description: Set up installer
     chroot: true
-    script: scripts/setup-installer.sh {{ $username }} {{ $parrot_suite }} {{ $environment }}
+    script: scripts/setup-installer.sh {{ $username }} {{ $debian_suite }} {{ $environment }}
 
   - action: pack
     file: {{ $installfs }}

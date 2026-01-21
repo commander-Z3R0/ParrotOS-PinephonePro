@@ -26,6 +26,7 @@ if echo ${TARGET_DISK} | grep -q p1; then
     PART="p"
     TARGET_DISK="/dev/$(echo ${TARGET_DISK} | sed 's:p1::')"
 fi
+
 FILESYSTEM="$(blkid -s TYPE -o value ${TARGET_DISK}${PART}${PARTNR})"
 
 if [ "${FILESYSTEM}" = 'ext4' ]
@@ -35,7 +36,17 @@ then
 fi
 
 echo "Setup encryption"
-echo "${PASSWORD}" | cryptsetup reencrypt ${TARGET_DISK}${PART}${PARTNR} root --new --reduce-device-size 32M --type luks2 --cipher aes-xts-essiv:sha256 --pbkdf argon2id --key-size 512 --hash sha512
+echo "${PASSWORD}" | cryptsetup reencrypt ${TARGET_DISK}${PART}${PARTNR} root \
+  --new \
+  --reduce-device-size 32M \
+  --type luks2 \
+  --cipher aes-xts-essiv:sha256 \
+  --key-size 512 \
+  --hash sha512 \
+  --pbkdf argon2id \
+  --pbkdf-memory 262144 \
+  --pbkdf-parallel 2 \
+  --iter-time 2000
 
 echo "Resize filesystem to fill up partition"
 if [ "${FILESYSTEM}" = 'ext4' ]
@@ -59,9 +70,9 @@ fi
 rootfs=$(blkid -s UUID -o value ${TARGET_DISK}${PART}${PARTNR})
 
 echo "Create fstab"
-echo "/dev/mapper/root	/	${FILESYSTEM}	defaults,noatime,x-systemd.growfs	0	1" > $ROOTDIR/etc/fstab
+echo "/dev/mapper/root  /   ${FILESYSTEM}   defaults,noatime,x-systemd.growfs   0   1" > $ROOTDIR/etc/fstab
 if [ "${BOOTONROOT}" != "true" ]; then
-    echo "LABEL=boot		/boot	ext4	defaults,noatime,x-systemd.growfs	0	1" >> $ROOTDIR/etc/fstab
+    echo "LABEL=boot        /boot   ext4    defaults,noatime,x-systemd.growfs   0   1" >> $ROOTDIR/etc/fstab
 fi
 
 echo "Create crypttab"

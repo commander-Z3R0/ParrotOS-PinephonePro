@@ -11,9 +11,10 @@
 {{- $bootstart := or .bootstart "1MiB" }}
 {{- $nonfree := or .nonfree "false" -}}
 {{- $rootfs := or .rootfs "rootfs.tar.gz" }}
-{{- $password := or .password "4869" -}}
-{{- $crypt_password := or .crypt_password $password -}}
-{{- $crypt_root := or .crypt_root "false" -}}
+{{- $password := or .password "123456" -}}
+{{- $crypt_password := or .crypt_password "p4rr0t" -}}
+# {{- $crypt_password := or .crypt_password $password -}}  # Uncomment this line only if you want to use the user password as LUKS passphrase
+{{- $crypt_root := or .crypt_root "true" -}}
 {{- $bootonroot := or .bootonroot "false" }}
 
 architecture: {{ $architecture }}
@@ -44,9 +45,20 @@ actions:
 {{ if eq $crypt_root "true" }}
     setup-fstab: false
 
+  - action: apt
+    description: Install cryptsetup
+    packages:
+      - cryptsetup
+      - cryptsetup-initramfs
+      - initramfs-tools
+      - unl0kr
+
   - action: run
     description: Encrypt root filesystem
     label: setup-luks
+    raw: true
+    chroot: false
+    mount-dev: true
     script: scripts/setup-luks.sh {{ $crypt_password }} {{ $bootonroot }}
 
   - action: recipe

@@ -8,7 +8,7 @@ if [ -z "${ARGS+x}" ]; then
     ARGS=""
 fi
 
-device="pinephonepro"
+device="pinephone"
 image="image"
 partitiontable="gpt"
 filesystem="ext4"
@@ -109,11 +109,17 @@ esac
 
 installfs_file="installfs-${arch}.tar.gz"
 
-image_file="mobian-${device}-${environment}-$(date +%Y%m%d)"
+image_file="parrotsec-${device}-${environment}"
 if [ "$installer" ]; then
   image="installer"
-  image_file="mobian-installer-${device}-${environment}-$(date +%Y%m%d)"
+  image_file="parrotsec-installer-${device}-${environment}-$(date +%Y%m%d)"
 fi
+
+#image_file="parrot-${device}-${environment}-$(date +%Y%m%d)"
+#if [ "$installer" ]; then
+#  image="installer"
+#  image_file="parrotsec-installer-${device}-${environment}-$(date +%Y%m%d)"
+#fi
 
 rootfs_file="rootfs-${arch}-${environment}.tar.gz"
 if echo "${ARGS}" | grep -q "nonfree:true"; then

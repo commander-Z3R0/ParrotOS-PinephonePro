@@ -1,6 +1,6 @@
 {{- $architecture := or .architecture "arm64" -}}
 {{- $filesystem := or .filesystem "ext4" }}
-{{- $image := or .image "parrotsec-$device" -}}
+{{- $image := or .image "sirros-$device" -}}
 {{- $imagesize := or .imagesize "6GB" }}
 {{- $bootstart := or .bootstart "1MiB" }}
 {{- $installer := or .installer "false" }}
