@@ -47,7 +47,8 @@ jobs:
             -t device:${device} \
             -t environment:${environment} \
             -t rootfs:${rootfs_file} \
-            -t nonfree:true
+            -t nonfree:true \
+            --no-check-gpg
 
           docker run --rm \
             --privileged \
