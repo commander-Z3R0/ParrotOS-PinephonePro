@@ -40,11 +40,12 @@ jobs:
             --privileged \
             --device /dev/kvm \
             -v "$PWD":/work \
-            -v "$PWD/parrot-keyring.deb":/tmp/parrot-archive-keyring_2024.12_all.deb \
             -w /work \
             -e DEBIAN_FRONTEND=noninteractive \
             parrotsec/debos-cryptsetup \
             debos rootfs.yaml \
+            --no-check-gpg \
+            --debug \
             --scratchsize=8G \
             -t architecture:${arch} \
             -t device:${device} \
@@ -60,6 +61,8 @@ jobs:
             -e DEBIAN_FRONTEND=noninteractive \
             parrotsec/debos-cryptsetup \
             debos image.yaml \
+            --no-check-gpg \
+            --debug \
             --scratchsize=10G \
             -t architecture:${arch} \
             -t device:${device} \
@@ -131,5 +134,5 @@ jobs:
 
           upload "$FILE_IMG"
           upload "$FILE_SHA"
-          upload "$FILE_BMAP"
+          upload "$FILE_B
 
