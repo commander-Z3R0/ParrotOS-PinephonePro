@@ -20,6 +20,7 @@ actions:
     check-gpg: false
     components:
       - main
+      - usrmerge   
 {{ if eq $contrib "true" }}
       - contrib
 {{ end }}
