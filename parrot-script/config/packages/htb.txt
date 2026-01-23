@@ -1,0 +1,16 @@
+parrot-interface-home
+desktop-base
+base-files
+anonsurf
+parrot-drivers
+parrot-menu
+parrot-desktop-mate
+parrot-wallpapers
+parrot-tools-full
+parrot-themes
+parrot-displaymanager
+hackthebox-icon-theme
+win10-icon-theme
+firefox-esr
+parrot-firefox-profiles
+vscodium
