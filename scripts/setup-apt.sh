@@ -1,5 +1,5 @@
 #!/bin/sh
-MOBIAN_SUITE="trixie"   
+MOBIAN_SUITE="bookworm"   
 PARROT_SUITE="echo"        
 
 # Parrot (suite echo)
