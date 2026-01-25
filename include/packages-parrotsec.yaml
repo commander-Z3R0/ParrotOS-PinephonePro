@@ -31,10 +31,18 @@ actions:
     chroot: true
     command: chmod +x /opt/parrot-script/install.sh
 
+#  - action: run
+#    description: Install Parrot Core edition
+#    chroot: true
+#    environment:
+#      DEBIAN_FRONTEND: noninteractive
+#    command: >
+#      /opt/parrot-script/install.sh core
+
   - action: run
     description: Install Parrot Core edition
     chroot: true
     environment:
       DEBIAN_FRONTEND: noninteractive
     command: >
-      /opt/parrot-script/install.sh core
+      bash /opt/parrot-script/scripts/editions/core.sh
