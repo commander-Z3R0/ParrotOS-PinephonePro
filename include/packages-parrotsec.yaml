@@ -18,12 +18,12 @@ actions:
 
   - action: overlay
     description: Copy Parrot system configuration
-    source: /work/parrot-script/config/system/
+    source: /work/include/parrot-script/config/system/
     destination: /
 
   - action: overlay
     description: Copy Parrot installer scripts
-    source: /work/parrot-script/
+    source: /work/include/parrot-script/
     destination: /opt/parrot-script/
 
 
