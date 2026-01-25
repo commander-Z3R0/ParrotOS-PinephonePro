@@ -29,8 +29,8 @@ use_docker=
 username=
 no_blockmap=
 ssh=
-debian_suite="trixie"
-suite="trixie"
+debian_suite="forky"
+suite="forky"
 contrib=
 sign=
 miniramfs=
@@ -109,16 +109,16 @@ esac
 
 installfs_file="installfs-${arch}.tar.gz"
 
-image_file="sirros-${device}-${environment}"
+image_file="Parrotsec-${device}-${environment}"
 if [ "$installer" ]; then
   image="installer"
-  image_file="sirros-installer-${device}-${environment}-$(date +%Y%m%d)"
+  image_file="Parrotsec-installer-${device}-${environment}-$(date +%Y%m%d)"
 fi
 
-#image_file="sirros-${device}-${environment}-$(date +%Y%m%d)"
+#image_file="Parrotsec-${device}-${environment}-$(date +%Y%m%d)"
 #if [ "$installer" ]; then
 #  image="installer"
-#  image_file="sirros-installer-${device}-${environment}-$(date +%Y%m%d)"
+#  image_file="Parrotsec-installer-${device}-${environment}-$(date +%Y%m%d)"
 #fi
 
 rootfs_file="rootfs-${arch}-${environment}.tar.gz"
