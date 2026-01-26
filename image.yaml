@@ -14,7 +14,7 @@
 {{- $password := or .password "123456" -}}
 {{- $crypt_password := or .crypt_password "parrotsec" -}}
 # {{- $crypt_password := or .crypt_password $password -}}  # Uncomment this line only if you want to use the user password as LUKS passphrase
-{{- $crypt_root := or .crypt_root "true" -}}
+{{- $crypt_root := or .crypt_root "false" -}} # Commented temporaly
 {{- $bootonroot := or .bootonroot "false" }}
 
 architecture: {{ $architecture }}
