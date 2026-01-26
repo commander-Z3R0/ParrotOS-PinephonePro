@@ -42,13 +42,12 @@ apt-get update
 echo "[+] Holding sensitive packages"
 apt-mark hold apparmor apparmor-profiles apparmor-profiles-extra || true
 
-echo "[+] Installing parrot-core safely"
+echo "[+] Installing parrot tools safely"
 apt-get install -y \
   -o Dpkg::Options::=--force-confdef \
   -o Dpkg::Options::=--force-confold \
-  parrot-tools-core \
+  parrot-tools-reporting \
   parrot-tools-password \
-  parrot-tools-forensics \
   parrot-tools-crypto
 
 echo "[+] Fixing dpkg"
