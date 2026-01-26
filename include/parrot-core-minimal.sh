@@ -23,17 +23,27 @@ deb https://deb.parrot.sh/parrot echo-security main contrib non-free non-free-fi
 deb https://deb.parrot.sh/parrot echo-backports main contrib non-free non-free-firmware
 EOF
 
-echo "[+] Setting APT pinning"
-cat <<EOF > /etc/apt/preferences.d/99-parrot
-Package: *
-Pin: origin deb.parrot.sh
-Pin-Priority: 700
-EOF
+echo "[+] Setting APT pinning (Mobian > Parrot)"
 
-cat <<EOF > /etc/apt/preferences.d/99-mobian
+# Mobian manda
+cat <<EOF > /etc/apt/preferences.d/00-mobian
 Package: *
 Pin: origin repo.mobian.org
-Pin-Priority: 600
+Pin-Priority: 900
+EOF
+
+# Parrot solo tools
+cat <<EOF > /etc/apt/preferences.d/10-parrot
+Package: parrot-*
+Pin: origin deb.parrot.sh
+Pin-Priority: 650
+EOF
+
+# Bloquear GNOME desktop (clave para Phosh)
+cat <<EOF > /etc/apt/preferences.d/99-block-gnome
+Package: gnome-*
+Pin: *
+Pin-Priority: -1
 EOF
 
 echo "[+] Updating APT"
@@ -42,8 +52,8 @@ apt-get update
 echo "[+] Holding sensitive packages"
 apt-mark hold apparmor apparmor-profiles apparmor-profiles-extra || true
 
-echo "[+] Installing parrot tools safely"
-apt-get install -y \
+echo "[+] Installing Parrot tools (no recommends)"
+apt-get install -y --no-install-recommends \
   -o Dpkg::Options::=--force-confdef \
   -o Dpkg::Options::=--force-confold \
   parrot-tools-reporting \
