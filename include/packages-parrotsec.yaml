@@ -12,10 +12,10 @@ actions:
       - gnupg
       - apt-transport-https
 
-  # NOTE:
-  # The Parrot conversion script is executed inline using "bash -s".
-  # This avoids copying build-only scripts into the final root filesystem
-  # and prevents leftover binaries inside the image.
+  # ------------------------------------------------------------
+  # Parrot conversion (BUILD-ONLY)
+  # Executed inline to avoid leaving build scripts in the image
+  # ------------------------------------------------------------
   - action: run
     description: Convert Mobian base into Parrot core (minimal, inline execution)
     chroot: true
@@ -36,57 +36,79 @@ actions:
       apt-get install -y ./parrot-archive-keyring_2024.12_all.deb
       rm -f parrot-archive-keyring_2024.12_all.deb
 
-      echo "[+] Removing duplicate Mobian source list (if present)"
+      echo "[+] Removing duplicate Mobian sources"
       rm -f /etc/apt/sources.list.d/mobian.list || true
 
-      echo "[+] Adding Parrot repositories (echo)"
+      echo "[+] Adding Parrot repositories"
       cat << 'APT' > /etc/apt/sources.list.d/parrot.list
       deb https://deb.parrot.sh/parrot echo main contrib non-free non-free-firmware
       deb https://deb.parrot.sh/parrot echo-security main contrib non-free non-free-firmware
       deb https://deb.parrot.sh/parrot echo-backports main contrib non-free non-free-firmware
       APT
 
-      echo "[+] Configuring APT pinning (Mobian preferred over Parrot)"
+      echo "[+] APT pinning (Mobian preferred)"
       cat << 'PIN' > /etc/apt/preferences.d/00-mobian
       Package: *
       Pin: origin repo.mobian.org
       Pin-Priority: 900
       PIN
 
-      echo "[+] Allowing Parrot packages with lower priority (tools only)"
+      echo "[+] Allow Parrot packages (tools only)"
       cat << 'PIN' > /etc/apt/preferences.d/10-parrot
       Package: parrot-*
       Pin: origin deb.parrot.sh
       Pin-Priority: 650
       PIN
 
-      echo "[+] Blocking GNOME packages to preserve Phosh compatibility"
+      echo "[+] Block GNOME desktop packages"
       cat << 'PIN' > /etc/apt/preferences.d/99-block-gnome
       Package: gnome-*
-      Pin: origin ""
+      Pin: *
       Pin-Priority: -1
       PIN
 
-      echo "[+] Updating APT metadata"
       apt-get update
 
-      echo "[+] Holding sensitive packages"
       apt-mark hold apparmor apparmor-profiles apparmor-profiles-extra || true
 
-      echo "[+] Installing Parrot security tools (no recommends)"
+      echo "[+] Installing Parrot base components"
       apt-get install -y --no-install-recommends \
         -o Dpkg::Options::=--force-confdef \
         -o Dpkg::Options::=--force-confold \
         parrot-apt \
         parrot-menu \
-        parrot-themes 
+        parrot-themes
 
-      echo "[+] Fixing possible dpkg inconsistencies"
       dpkg --configure -a || true
       apt-get -f install -y || true
 
-      echo "[+] Removing policy-rc.d"
       rm -f /usr/sbin/policy-rc.d
 
-      echo "[+] Parrot core minimal conversion completed"
+      echo "[+] Parrot conversion completed"
       EOF
+
+  # ------------------------------------------------------------
+  # Install Parrot user-facing commands into /usr/bin
+  # These ARE part of the final image
+  # ------------------------------------------------------------
+  - action: overlay
+    description: Install Parrot CLI tools
+    source: parrot-script/usr/bin/
+    destination: /usr/bin/
+
+  - action: overlay
+    description: Install Parrot OS Release
+    source: parrot-script/usr/lib/
+    destination: /usr/lib/
+ 
+  - action: overlay
+    description: Replace Mobian Plymouth logo with custom Parrot logo
+    source: usr/share/plymouth/themes/mobian/logo.png
+    destination: /usr/share/plymouth/themes/mobian/logo.png
+    
+  - action: run
+    description: Fix permissions for Parrot CLI tools
+    chroot: true
+    command: |
+      chmod +x /usr/bin/parrot-*
+
