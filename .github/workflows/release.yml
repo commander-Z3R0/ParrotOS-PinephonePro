@@ -21,7 +21,7 @@ jobs:
       - name: Build custom debos image (with cryptsetup)
         run: |
           docker build \
-            -t parrotos-pinephonepro/debos-cryptsetup \
+            -t ParrotOS-PinephonePro/debos-cryptsetup \
             -f Docker/Dockerfile.debos \
             .
 
@@ -39,7 +39,7 @@ jobs:
             --device /dev/kvm \
             -v "$PWD":/work \
             -w /work \
-            parrotos-pinephonepro/debos-cryptsetup \
+            ParrotOS-PinephonePro/debos-cryptsetup \
             -t architecture:${arch} \
             -t device:${device} \
             -t environment:${environment} \
@@ -53,7 +53,7 @@ jobs:
             --device /dev/kvm \
             -v "$PWD":/work \
             -w /work \
-            parrotos-pinephonepro/debos-cryptsetup \
+            ParrotOS-PinephonePro/debos-cryptsetup \
             -t architecture:${arch} \
             -t device:${device} \
             -t environment:${environment} \
@@ -70,7 +70,7 @@ jobs:
 
       - name: Generate SHA256
         run: |
-          image="ParrotOS-pinephonepro-phosh-encrypted.img"
+          image="ParrotOS-PinephonePro-phosh-encrypted.img"
           sha256sum "$image" | tee "$image.sha256"
 
       - name: Upload encrypted image to GoFile
