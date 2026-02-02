@@ -1,4 +1,4 @@
-name: Build Parrot OS PinePhone Pro
+name: Build Parrot OS PinePhone Pro 
 on:
   workflow_dispatch:
 
@@ -6,7 +6,7 @@ permissions:
   contents: write
 
 jobs:
-  build-luks:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -18,69 +18,66 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y bmap-tools jq
 
-      - name: Build custom debos image (with cryptsetup)
+      - name: Build custom debos image
         run: |
-          docker build \
-            -t ParrotOS-PinephonePro/debos-cryptsetup \
-            -f Docker/Dockerfile.debos \
+          docker build \\
+            -t ParrotOS-PinephonePro/debos \\
+            -f Docker/Dockerfile.debos \\
             .
 
-      - name: Build encrypted image
+      - name: Build image
         run: |
           device="pinephonepro"
           environment="phosh"
           arch="arm64"
 
-          image_file="ParrotOS-${device}-${environment}-encrypted"
+          image_file="ParrotOS-${device}-${environment}"
           rootfs_file="rootfs-${arch}-${environment}-nonfree.tar.gz"
 
-          docker run --rm \
-            --privileged \
-            --device /dev/kvm \
-            -v "$PWD":/work \
-            -w /work \
-            ParrotOS-PinephonePro/debos-cryptsetup \
-            -t architecture:${arch} \
-            -t device:${device} \
-            -t environment:${environment} \
-            -t rootfs:${rootfs_file} \
-            -t nonfree:true \
-            --scratchsize=8G \
+          docker run --rm \\
+            --privileged \\
+            --device /dev/kvm \\
+            -v "$PWD":/work \\
+            -w /work \\
+            ParrotOS-PinephonePro/debos \\
+            -t architecture:${arch} \\
+            -t device:${device} \\
+            -t environment:${environment} \\
+            -t rootfs:${rootfs_file} \\
+            -t nonfree:true \\
+            --scratchsize=8G \\
             rootfs.yaml
 
-          docker run --rm \
-            --privileged \
-            --device /dev/kvm \
-            -v "$PWD":/work \
-            -w /work \
-            ParrotOS-PinephonePro/debos-cryptsetup \
-            -t architecture:${arch} \
-            -t device:${device} \
-            -t environment:${environment} \
-            -t rootfs:${rootfs_file} \
-            -t image:${image_file} \
-            -t crypt_root:true \
-            -t crypt_password:s1rr0s \
-            -t bootonroot:false \
-            -t nonfree:true \
-            --scratchsize=10G \
+          docker run --rm \\
+            --privileged \\
+            --device /dev/kvm \\
+            -v "$PWD":/work \\
+            -w /work \\
+            ParrotOS-PinephonePro/debos \\
+            -t architecture:${arch} \\
+            -t device:${device} \\
+            -t environment:${environment} \\
+            -t rootfs:${rootfs_file} \\
+            -t image:${image_file} \\
+            -t nonfree:true \\
+            --scratchsize=10G \\
             image.yaml
 
           bmaptool create "${image_file}.img" > "${image_file}.img.bmap"
 
       - name: Generate SHA256
         run: |
-          image="ParrotOS-PinephonePro-phosh-encrypted.img"
+          image="ParrotOS-pinephonepro-phosh.img"
           sha256sum "$image" | tee "$image.sha256"
 
-      - name: Upload encrypted image to GoFile
+      - name: Upload image to GoFile
         env:
           GOFILE_TOKEN: ${{ secrets.GOFILE_TOKEN }}
           GOFILE_FOLDER_ID: ${{ secrets.GOFILE_FOLDER_ID }}
         run: |
           device="pinephonepro"
           environment="phosh"
-          image_file="ParrotOS-${device}-${environment}-encrypted"
+          image_file="ParrotOS-${device}-${environment}"
 
           FILE_IMG="${image_file}.img"
           FILE_SHA="${image_file}.img.sha256"
@@ -108,9 +105,9 @@ jobs:
           upload() {
             local file="$1"
             echo "📤 Uploading $file"
-            RESPONSE=$(curl -s -X POST "https://${SERVER}.gofile.io/uploadFile" \
-              -H "Authorization: Bearer $GOFILE_TOKEN" \
-              -F "file=@${file}" \
+            RESPONSE=$(curl -s -X POST "https://${SERVER}.gofile.io/uploadFile" \\
+              -H "Authorization: Bearer $GOFILE_TOKEN" \\
+              -F "file=@${file}" \\
               -F "folderId=${GOFILE_FOLDER_ID}")
 
             LINK=$(echo "$RESPONSE" | jq -r '.data.downloadPage')
