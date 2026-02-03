@@ -6,7 +6,7 @@ permissions:
   contents: write
 
 jobs:
-  build-luks:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -18,10 +18,10 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y bmap-tools jq
 
-      - name: Build custom debos image 
+      - name: Build custom debos image
         run: |
           docker build \
-            -t ParrotOS-PinephonePro/debos-ryptsetup \
+            -t ParrotOS-PinephonePro/debos-cryptsetup \
             -f Docker/Dockerfile.debos \
             .
 
@@ -70,7 +70,7 @@ jobs:
 
       - name: Generate SHA256
         run: |
-          image="ParrotOS-PinephonePro-phosh.img"
+          image="ParrotOS-pinephonepro-phosh.img"
           sha256sum "$image" | tee "$image.sha256"
 
       - name: Upload image to GoFile
@@ -127,3 +127,4 @@ jobs:
           upload "$FILE_IMG"
           upload "$FILE_SHA"
           upload "$FILE_BMAP"
+
