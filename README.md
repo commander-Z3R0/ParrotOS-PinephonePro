@@ -40,15 +40,6 @@ This build is optimized for ARM architecture, providing a secure and minimal env
 
 ---
 
-## Roadmap
-
-* [ ] Improve power management and battery optimization
-* [ ] Expand driver support for peripherals
-* [ ] Prebuilt images with popular ParrotOS toolsets
-* [ ] Documentation for advanced users and developers
-
----
-
 ## Contributing
 
 Contributions are welcome!
