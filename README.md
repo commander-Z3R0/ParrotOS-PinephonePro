@@ -44,7 +44,7 @@ This build is optimized for ARM architecture, providing a secure and minimal env
 
 Contributions are welcome!
 
-* Report bugs and request features via [Issues](#).
+* Report bugs and request features via [Issues](https://github.com/commander-Z3R0/ParrotOS-PinephonePro/issues).
 * Submit pull requests for improvements.
 
 ---
