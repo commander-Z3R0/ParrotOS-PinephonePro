@@ -7,7 +7,7 @@ This build is optimized for ARM architecture, providing a secure and minimal env
 
 ##  Features
 
-*  **Hardened Security** – Includes ParrotOS’s security enhancements and privacy-focused defaults.
+*  **Security Flexibility** – ParrotOS can be customized and hardened according to user needs.
 *  **Official Repositories** – Preconfigured ParrotOS mirrors and keys for seamless updates and package installation.
 *  **Lightweight Setup** – Minimal preinstalled packages to keep the system efficient and responsive on mobile hardware.
 *  **Hardware Support** – Full support for PinePhone Pro networking, display, input, and peripherals.
