@@ -25,21 +25,21 @@ EOF
 
 echo "[+] Setting APT pinning (Mobian > Parrot)"
 
-# Mobian manda
+# Mobian priority
 cat <<EOF > /etc/apt/preferences.d/00-mobian
 Package: *
 Pin: origin repo.mobian.org
 Pin-Priority: 900
 EOF
 
-# Parrot solo tools
+# Parrot only tools
 cat <<EOF > /etc/apt/preferences.d/10-parrot
 Package: parrot-*
 Pin: origin deb.parrot.sh
 Pin-Priority: 650
 EOF
 
-# Bloquear GNOME desktop (clave para Phosh)
+# Block GNOME desktop (Phosh default desktop)
 cat <<EOF > /etc/apt/preferences.d/99-block-gnome
 Package: gnome-*
 Pin: *
