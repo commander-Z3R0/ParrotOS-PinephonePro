@@ -4,7 +4,7 @@ architecture: {{ $architecture }}
 
 actions:
   - action: apt
-    recommends: false
+    recommends: true
     description: Install packages for full disk encryption
     packages:
       - cryptsetup
