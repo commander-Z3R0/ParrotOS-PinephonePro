@@ -5,7 +5,7 @@ architecture: {{ $architecture }}
 
 actions:
   - action: apt
-    recommends: false
+    recommends: true
     description: Install device-specific packages for Phosh
     packages:
 {{ if ne $device "pinetab2" }}
