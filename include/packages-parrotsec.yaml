@@ -5,7 +5,7 @@ architecture: {{ $architecture }}
 actions:
   - action: apt
     description: Install base dependencies required for Parrot bootstrap
-    recommends: false
+    recommends: true
     packages:
       - ca-certificates
       - wget
