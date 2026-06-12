@@ -4,6 +4,8 @@
 This build is optimized for ARM architecture, providing a secure and minimal environment with essential tools for security, development, and privacy.
 
 ---
+🚧 This project is currently under construction; no image is available yet, and all progress can be tracked through the GitHub Actions logs. 🚧
+---
 
 ##  Features
 
