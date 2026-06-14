@@ -4,7 +4,7 @@ DEBIAN_SUITE=$1
 SUITE=$2
 
 # Add debian-security for stable releases; note that only the main component is supported
-if [ "${DEBIAN_SUITE}" = "bullseye" ] || [ "${DEBIAN_SUITE}" = "bookworm" ] || [ "${DEBIAN_SUITE}" = "trixie" ]; then
+if [ "${DEBIAN_SUITE}" = "bookworm" ] || [ "${DEBIAN_SUITE}" = "trixie" ] || [ "${DEBIAN_SUITE}" = "forky" ]; then
     echo "deb http://security.debian.org/ ${DEBIAN_SUITE}-security main" >> /etc/apt/sources.list
 fi
 
