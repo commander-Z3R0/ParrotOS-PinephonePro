@@ -76,9 +76,6 @@ actions:
       apt-get install -y --no-install-recommends \
         -o Dpkg::Options::=--force-confdef \
         -o Dpkg::Options::=--force-confold \
-     #   parrot-menu \
-     #   parrot-themes\
-     #   ara-icon-theme \
         hicolor-icon-theme
 
       dpkg --configure -a || true
