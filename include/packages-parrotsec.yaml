@@ -72,14 +72,14 @@ actions:
 
       apt-mark hold apparmor apparmor-profiles apparmor-profiles-extra || true
 
-      echo "[+] Installing Parrot base components"
-      apt-get install -y --no-install-recommends \
-        -o Dpkg::Options::=--force-confdef \
-        -o Dpkg::Options::=--force-confold \
-        parrot-menu \
-        parrot-themes\
-        ara-icon-theme \
-        hicolor-icon-theme
+     # echo "[+] Installing Parrot base components"
+     # apt-get install -y --no-install-recommends \
+     #   -o Dpkg::Options::=--force-confdef \
+     #   -o Dpkg::Options::=--force-confold \
+     #   parrot-menu \
+     #   parrot-themes\
+     #   ara-icon-theme \
+     #   hicolor-icon-theme
 
       dpkg --configure -a || true
       apt-get -f install -y || true
