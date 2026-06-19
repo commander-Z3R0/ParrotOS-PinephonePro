@@ -97,5 +97,11 @@ actions:
   - action: recipe
     recipe: include/packages-parrotsec.yaml
 
+  - action: run
+    description: Upgrade using parrot-upgrade (Testing)
+    chroot: true
+    command: |
+      parrot-upgrade
+      
   - action: pack
     file: {{ $rootfs }}
