@@ -5,7 +5,7 @@ This build is optimized for ARM architecture, providing a secure and minimal env
 
 ---
 
-🚧 This project is currently under construction; all progress can be tracked through the GitHub Actions logs. 🚧
+🚧 This project is currently under construction; progress can be tracked through the GitHub commits and logs. 🚧
 
 ---
 
