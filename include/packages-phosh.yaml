@@ -24,10 +24,10 @@ actions:
       - gnome-usage
       - loupe
       - papers
-      - phosh-mobile-settings
+      # - phosh-mobile-settings
       - phosh-plugins
       - phosh-wallpapers
-      - phrog
+      # - phrog
       - portfolio-filemanager
       - powersupply-gtk
       - polkitd
