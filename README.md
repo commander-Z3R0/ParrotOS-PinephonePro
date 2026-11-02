@@ -3,7 +3,6 @@
 **ParrotOS for PinePhone Pro** is a privacy-focused and lightweight Linux distribution based on **Debian**, tailored specifically for the **PinePhone Pro** mobile device.
 This build is optimized for ARM architecture, providing a secure and minimal environment with essential tools for security, development, and privacy.
 
-- **Pin/Password** : **123456**
 ---
 
 🚧 This project is currently under construction; progress can be tracked through the GitHub commits and logs.
@@ -11,6 +10,8 @@ This build is optimized for ARM architecture, providing a secure and minimal env
 ---
 
 <img alt="parrot-pinephonepro" align="center" src="https://github.com/commander-Z3R0/repository-assets/blob/main/ParrotOS-PinephonePro/img/parrot_2.jpeg">
+
+- **Pin/Password** : **123456**
 
 ##  Features
 
